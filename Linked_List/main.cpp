@@ -22,6 +22,14 @@ bool prependList (Node<T> *&head, T data) {
 	return true;
 }
 
+template <class z>
+void traverseList(Node<z> *node, void(^action)(Node<z> *node)) {
+  if (node) {
+		action(node);
+		traverseList(node->getNext(), action);
+	}
+}
+
 int main(int argc, const char * argv[])
 {
 	
@@ -34,8 +42,8 @@ int main(int argc, const char * argv[])
 		return -1;
 	}
 	
-	for (Node<int> *cur = head; cur; cur = cur->getNext()) {
-		cout << cur->getItem() << "  " << cur->getNext() << endl;
-	}
+	traverseList(head, ^(Node<int> *node){
+		cout << node->getItem() << "  " << node->getNext() << endl;
+	});
 	return 0;
 }
