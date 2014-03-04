@@ -93,7 +93,7 @@ bool deleteElement(Node<T> *&head, Node<T> *deleteMe) {
 template <class T>
 void printList(Node<T> *head) {
 	traverseList(head, ^(Node<int> *node){
-		cout << node->getItem() << "  " << node->getNext() << endl;
+		cout << node << "  " << node->getItem() << "  " << node->getNext() << endl;
 	});
 }
 
