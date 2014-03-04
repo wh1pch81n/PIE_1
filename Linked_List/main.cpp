@@ -57,6 +57,46 @@ Node<T> *find(Node<T> *node, T data) {
 	return cur;
 }
 
+
+/*
+ Deleting elements from the list
+ @param head a reference to the first node of the list
+ @param deleteMe reference to the node that will be deleted
+ @return is true if it found the node and deleted it, false otherwise
+ */
+template <class T>
+bool deleteElement(Node<T> *&head, Node<T> *deleteMe) {
+  if (!head || !deleteMe) {
+		return false;
+	}
+	
+	if (head == deleteMe) {
+		head = head->getNext();
+		delete deleteMe;
+		return true;
+	}
+	
+	for (Node<T> *prev = head; prev->getNext(); prev = prev->getNext()) {
+		if (prev->getNext() == deleteMe) {
+			prev->setNext(prev->getNext()->getNext());
+			delete deleteMe;
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+/**
+ prints the list
+ */
+template <class T>
+void printList(Node<T> *head) {
+	traverseList(head, ^(Node<int> *node){
+		cout << node->getItem() << "  " << node->getNext() << endl;
+	});
+}
+
 int main(int argc, const char * argv[])
 {
 	
@@ -69,15 +109,15 @@ int main(int argc, const char * argv[])
 		return -1;
 	}
 	
-	traverseList(head, ^(Node<int> *node){
-		cout << node->getItem() << "  " << node->getNext() << endl;
-	});
+	printList (head);
 	
 	cout << find(head, 9) << endl;
 	cout << find(head, 4) << endl;
 	cout << find(head, 3) << endl;
 	cout << find(head, 0) << endl;
 	
+	deleteElement(head, head->getNext());
+	printList(head);
 	
 	
 	return 0;
