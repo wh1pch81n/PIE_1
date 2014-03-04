@@ -92,33 +92,61 @@ bool deleteElement(Node<T> *&head, Node<T> *deleteMe) {
  */
 template <class T>
 void printList(Node<T> *head) {
-	traverseList(head, ^(Node<int> *node){
+	traverseList(head, ^(Node<T> *node){
 		cout << node << "  " << node->getItem() << "  " << node->getNext() << endl;
 	});
+}
+
+/**
+ recursive delete list
+ then sets the head to NULL
+*/
+template <class T>
+void deleteListRecursive(Node<T> *&head) {
+	if (!head) {
+		return;
+	}
+	Node<T> *deleteThis = head;
+	head = head->getNext();
+	deleteListRecursive<T>(head);
+	delete deleteThis;
+}
+
+
+/**
+ iterative delete list
+ 
+ */
+template <class T>
+void deleteListIterative(Node<T> *&head) {
+	Node<T> *deleteMe = head;
+	for (; deleteMe;) {
+		head = head->getNext();
+		delete deleteMe;
+		deleteMe = head;
+	}
 }
 
 int main(int argc, const char * argv[])
 {
 	
 	// insert code here...
-	
-	Node<int> *head = new Node<int>(9);
-	head->setNext( new Node<int>(4));
-	head->getNext()->setItem(3);
-	if (!prependList(head, 9999999)) {
-		return -1;
+	Node<int> *headNum;
+	for (int i = 10; i >= 0; i--) {
+		prependList(headNum, i);
+	}
+	Node<char> *headChar;
+	for (char c = 'Z'; c >= 'A'; c--) {
+		prependList(headChar, c);
 	}
 	
-	printList (head);
+	printList(headNum);
+	printList(headChar);
 	
-	cout << find(head, 9) << endl;
-	cout << find(head, 4) << endl;
-	cout << find(head, 3) << endl;
-	cout << find(head, 0) << endl;
-	
-	deleteElement(head, head->getNext());
-	printList(head);
-	
+	deleteListRecursive(headNum);
+	deleteListIterative(headChar);
 	
 	return 0;
 }
+
+
